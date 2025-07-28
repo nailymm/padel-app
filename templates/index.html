@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pádel Score - Inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Marcador de Pádel</h1>
+        <h2>Nuevo Partido</h2>
+        <form action="/iniciar_partido" method="post">
+            <div class="player-inputs">
+                <label>Equipo 1:</label><br>
+                <input type="text" name="p1_eq1" placeholder="Jugador 1" required>
+                <input type="text" name="p2_eq1" placeholder="Jugador 2" required><br><br>
+                <label>Equipo 2:</label><br>
+                <input type="text" name="p1_eq2" placeholder="Jugador 1" required>
+                <input type="text" name="p2_eq2" placeholder="Jugador 2" required>
+            </div>
+            <button type="submit">Iniciar Partido</button>
+        </form>
+        <div class="actions">
+            <a href="/historial" class="button-link">Ver Historial</a>
+        </div>
+    </div>
+</body>
+</html>

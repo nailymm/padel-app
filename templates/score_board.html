@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pádel Score - Marcador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="score-container">
+        <div class="header-row">
+            <div class="left">Hora</div>
+            <div class="logo">
+                <!-- <img src="{{ url_for('static', filename='padel_logo.png') }}" alt="PADEL"> -->
+            </div>
+            <div class="right">Tiempo <br> restante: <br> {{ match.tiempo_restante }}</div>
+        </div>
+        <div class="sets-header">
+            <span>Set 1</span>
+            <span>Set 2</span>
+            <span>Set 3</span>
+            <span></span>
+        </div>
+        <div class="teams-area">
+            <div class="team-row">
+                <div class="team-names">
+                    <div>{{ match.jugadores.equipo1[0] }}</div>
+                    <div>{{ match.jugadores.equipo1[1] }}</div>
+                </div>
+                <div class="team-sets">
+                    <span>{{ match.sets_equipo1[0] }}</span>
+                    <span>{{ match.sets_equipo1[1] }}</span>
+                    <span>{{ match.sets_equipo1[2] }}</span>
+                </div>
+                <div class="team-points">
+                    <span class="point-box">{{ match.puntos_equipo1 }}</span>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="team-row">
+                <div class="team-names">
+                    <div>{{ match.jugadores.equipo2[0] }}</div>
+                    <div>{{ match.jugadores.equipo2[1] }}</div>
+                </div>
+                <div class="team-sets">
+                    <span>{{ match.sets_equipo2[0] }}</span>
+                    <span>{{ match.sets_equipo2[1] }}</span>
+                    <span>{{ match.sets_equipo2[2] }}</span>
+                </div>
+                <div class="team-points">
+                    <span class="point-box">{{ match.puntos_equipo2 }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="tiebreak-info">
+            <p>Estado del Partido: {{ match.estado_partido }}</p>
+        </div>
+        <!-- <div class="time-info">
+            <span>Tiempo transcurrido: {{ match.tiempo_transcurrido }}</span>
+            <span>Tiempo restante: {{ match.tiempo_restante }}</span>
+        </div> -->
+        <div class="manual-buttons">
+            <span style="width: 100%;">Esconder cuando se configure los botones</span>
+            <button onclick="addPoint('equipo1')">Punto Equipo 1</button>
+            <button onclick="addPoint('equipo2')">Punto Equipo 2</button>
+        </div>
+
+        <div class="actions">
+            <button onclick="window.location.href='/reiniciar_partido'">Reiniciar Partido</button>
+            <a href="/historial" class="button-link">Ver Historial</a>
+            <a href="/" class="button-link">Inicio</a>
+        </div>
+    </div>
+
+    <script>
+        function updateScoreDisplay(data) {
+            // Actualizar sets equipo 1
+            document.querySelectorAll('.team-sets span').forEach((el, idx) => {
+                if (idx < 3) {
+                    el.innerText = data.sets_equipo1[idx] !== undefined ? data.sets_equipo1[idx] : 0;
+                } else {
+                    el.innerText = data.sets_equipo2[idx-3] !== undefined ? data.sets_equipo2[idx-3] : 0;
+                }
+            });
+
+            // Actualizar puntos
+            document.querySelectorAll('.team-points .point-box')[0].innerText = data.puntos_equipo1;
+            document.querySelectorAll('.team-points .point-box')[1].innerText = data.puntos_equipo2;
+
+            // Actualizar nombres de jugadores
+            document.querySelectorAll('.team-row')[0].querySelectorAll('.team-names div')[0].innerText = data.jugadores.equipo1[0];
+            document.querySelectorAll('.team-row')[0].querySelectorAll('.team-names div')[1].innerText = data.jugadores.equipo1[1];
+            document.querySelectorAll('.team-row')[1].querySelectorAll('.team-names div')[0].innerText = data.jugadores.equipo2[0];
+            document.querySelectorAll('.team-row')[1].querySelectorAll('.team-names div')[1].innerText = data.jugadores.equipo2[1];
+
+            // Si tienes info de tiebreak o estado de partido, puedes actualizar aquí
+            // Ejemplo:
+            // if (data.juego_en_tiebreak) { ... }
+            // if (data.estado_partido === 'Finalizado') { ... }
+        }
+
+        function addPoint(equipo) {
+            fetch(`/agregar_punto/${equipo}`)
+                .then(response => response.json())
+                .then(data => {
+                    updateScoreDisplay(data);
+                })
+                .catch(error => console.error('Error al agregar punto:', error));
+        }
+    </script>
+</body>
+</html>
