@@ -44,13 +44,13 @@ body {
 
 .header-row .left, .header-row .right {
     flex: 1;
-    font-size: 1.5em;
+    font-size: 1.8em;
     color: #fff;
     font-weight: 400;
 }
 
 .header-row .right {
-    font-size: 2.3em;
+    font-size: 3em;
     font-weight: bold;
     text-align: right;
 }
@@ -200,12 +200,12 @@ body {
 .score-table th, .score-table td {
     padding: 16px 8px;
     text-align: center;
-    font-size: 1.3em;
     border-bottom: 2px solid #bfff00;
 }
 .score-table th {
     color: #fff;
     font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 2em;
     font-weight: bold;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;

@@ -103,25 +103,22 @@
         calcularTiempoRestante();
 
         function updateScoreDisplay(data) {
-            // Actualizar sets equipo 1
-            document.querySelectorAll('.team-sets span').forEach((el, idx) => {
-                if (idx < 3) {
-                    el.innerText = data.sets_equipo1[idx] !== undefined ? data.sets_equipo1[idx] : 0;
-                } else {
-                    el.innerText = data.sets_equipo2[idx-3] !== undefined ? data.sets_equipo2[idx-3] : 0;
-                }
-            });
-
-            // Actualizar puntos
-            document.querySelectorAll('.team-points .point-box')[0].innerText = data.puntos_equipo1;
-            document.querySelectorAll('.team-points .point-box')[1].innerText = data.puntos_equipo2;
-
-            // Actualizar nombres de jugadores
-            document.querySelectorAll('.team-row')[0].querySelectorAll('.team-names div')[0].innerText = data.jugadores.equipo1[0];
-            document.querySelectorAll('.team-row')[0].querySelectorAll('.team-names div')[1].innerText = data.jugadores.equipo1[1];
-            document.querySelectorAll('.team-row')[1].querySelectorAll('.team-names div')[0].innerText = data.jugadores.equipo2[0];
-            document.querySelectorAll('.team-row')[1].querySelectorAll('.team-names div')[1].innerText = data.jugadores.equipo2[1];
-
+            // Actualizar sets y puntos usando la estructura de tabla
+            const filas = document.querySelectorAll('.score-table tbody tr');
+            // Equipo 1
+            filas[0].children[1].innerText = data.sets_equipo1[0];
+            filas[0].children[2].innerText = data.sets_equipo1[1];
+            filas[0].children[3].innerText = data.sets_equipo1[2];
+            filas[0].children[4].querySelector('.point-box').innerText = data.puntos_equipo1;
+            filas[0].children[0].querySelectorAll('div')[0].innerText = data.jugadores.equipo1[0];
+            filas[0].children[0].querySelectorAll('div')[1].innerText = data.jugadores.equipo1[1];
+            // Equipo 2
+            filas[1].children[1].innerText = data.sets_equipo2[0];
+            filas[1].children[2].innerText = data.sets_equipo2[1];
+            filas[1].children[3].innerText = data.sets_equipo2[2];
+            filas[1].children[4].querySelector('.point-box').innerText = data.puntos_equipo2;
+            filas[1].children[0].querySelectorAll('div')[0].innerText = data.jugadores.equipo2[0];
+            filas[1].children[0].querySelectorAll('div')[1].innerText = data.jugadores.equipo2[1];
             // Si tienes info de tiebreak o estado de partido, puedes actualizar aquí
             // Ejemplo:
             // if (data.juego_en_tiebreak) { ... }
