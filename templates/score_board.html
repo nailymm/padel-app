@@ -10,49 +10,45 @@
 <body>
     <div class="score-container">
         <div class="header-row">
-            <div class="left">Hora</div>
+            <div class="left"><span id="hora-actual">{{ match.hora_actual }}</span></div>
             <div class="logo">
                 <!-- <img src="{{ url_for('static', filename='padel_logo.png') }}" alt="PADEL"> -->
             </div>
-            <div class="right">Tiempo <br> restante: <br> {{ match.tiempo_restante }}</div>
+            <div class="right"><span id="tiempo-restante"></span></div>
         </div>
-        <div class="sets-header">
-            <span>Set 1</span>
-            <span>Set 2</span>
-            <span>Set 3</span>
-            <span></span>
-        </div>
-        <div class="teams-area">
-            <div class="team-row">
-                <div class="team-names">
-                    <div>{{ match.jugadores.equipo1[0] }}</div>
-                    <div>{{ match.jugadores.equipo1[1] }}</div>
-                </div>
-                <div class="team-sets">
-                    <span>{{ match.sets_equipo1[0] }}</span>
-                    <span>{{ match.sets_equipo1[1] }}</span>
-                    <span>{{ match.sets_equipo1[2] }}</span>
-                </div>
-                <div class="team-points">
-                    <span class="point-box">{{ match.puntos_equipo1 }}</span>
-                </div>
-            </div>
-            <div class="divider"></div>
-            <div class="team-row">
-                <div class="team-names">
-                    <div>{{ match.jugadores.equipo2[0] }}</div>
-                    <div>{{ match.jugadores.equipo2[1] }}</div>
-                </div>
-                <div class="team-sets">
-                    <span>{{ match.sets_equipo2[0] }}</span>
-                    <span>{{ match.sets_equipo2[1] }}</span>
-                    <span>{{ match.sets_equipo2[2] }}</span>
-                </div>
-                <div class="team-points">
-                    <span class="point-box">{{ match.puntos_equipo2 }}</span>
-                </div>
-            </div>
-        </div>
+        <table class="score-table" style="width:100%; border-collapse:separate; margin-top: 1em;">
+            <thead>
+                <tr>
+                    <th style="text-align:left;">Equipo / Jugadores</th>
+                    <th>Set 1</th>
+                    <th>Set 2</th>
+                    <th>Set 3</th>
+                    <th>Puntos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="team-cell">
+                        <div>{{ match.jugadores.equipo1[0] }}</div>
+                        <div>{{ match.jugadores.equipo1[1] }}</div>
+                    </td>
+                    <td>{{ match.sets_equipo1[0] }}</td>
+                    <td>{{ match.sets_equipo1[1] }}</td>
+                    <td>{{ match.sets_equipo1[2] }}</td>
+                    <td><span class="point-box">{{ match.puntos_equipo1 }}</span></td>
+                </tr>
+                <tr>
+                    <td class="team-cell">
+                        <div>{{ match.jugadores.equipo2[0] }}</div>
+                        <div>{{ match.jugadores.equipo2[1] }}</div>
+                    </td>
+                    <td>{{ match.sets_equipo2[0] }}</td>
+                    <td>{{ match.sets_equipo2[1] }}</td>
+                    <td>{{ match.sets_equipo2[2] }}</td>
+                    <td><span class="point-box">{{ match.puntos_equipo2 }}</span></td>
+                </tr>
+            </tbody>
+        </table>
         <div class="tiebreak-info">
             <p>Estado del Partido: {{ match.estado_partido }}</p>
         </div>
@@ -74,6 +70,38 @@
     </div>
 
     <script>
+        // --- Hora actual ---
+        function actualizarHoraActual() {
+            const ahora = new Date();
+            const hh = String(ahora.getHours()).padStart(2, '0');
+            const mm = String(ahora.getMinutes()).padStart(2, '0');
+            document.getElementById('hora-actual').innerText = `${hh}:${mm}`;
+        }
+        setInterval(actualizarHoraActual, 1000);
+        actualizarHoraActual();
+
+        // --- Tiempo restante ---
+        // Variables que deben venir del backend
+        const duracionPartidoMin = {{ match.duracion_partido|int }}; // minutos
+        const horaInicioStr = '{{ match.hora_inicio }}'; // formato 'HH:MM:SS'
+
+        function calcularTiempoRestante() {
+            // Parsear hora de inicio
+            const ahora = new Date();
+            const partes = horaInicioStr.split(':');
+            const inicio = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate(), partes[0], partes[1], partes[2] || 0);
+            // Si el partido empezó el día anterior, ajustar
+            if (inicio > ahora) inicio.setDate(inicio.getDate() - 1);
+            const fin = new Date(inicio.getTime() + duracionPartidoMin * 60000);
+            let restanteMs = fin - ahora;
+            if (restanteMs < 0) restanteMs = 0;
+            const min = Math.floor(restanteMs / 60000);
+            const seg = Math.floor((restanteMs % 60000) / 1000);
+            document.getElementById('tiempo-restante').innerText = `${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+        }
+        setInterval(calcularTiempoRestante, 1000);
+        calcularTiempoRestante();
+
         function updateScoreDisplay(data) {
             // Actualizar sets equipo 1
             document.querySelectorAll('.team-sets span').forEach((el, idx) => {

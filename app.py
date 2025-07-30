@@ -44,11 +44,12 @@ def iniciar_partido():
     p2_eq1 = request.form['p2_eq1']
     p1_eq2 = request.form['p1_eq2']
     p2_eq2 = request.form['p2_eq2']
+    duracion = int(request.form.get('duracion_partido', 90))
 
     if not all([p1_eq1, p2_eq1, p1_eq2, p2_eq2]):
         return "Todos los nombres de jugadores son obligatorios", 400
 
-    current_match = PartidoPadel(p1_eq1, p2_eq1, p1_eq2, p2_eq2)
+    current_match = PartidoPadel(p1_eq1, p2_eq1, p1_eq2, p2_eq2, duracion_partido=duracion)
     save_match_state(current_match)
     
     return redirect(url_for('score_board'))

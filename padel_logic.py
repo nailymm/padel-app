@@ -6,7 +6,7 @@ from database_manager import get_or_create_player, save_match
 
 class PartidoPadel:
     def __init__(self, equipo1_jugador1_nombre, equipo1_jugador2_nombre,
-                 equipo2_jugador1_nombre, equipo2_jugador2_nombre):
+                 equipo2_jugador1_nombre, equipo2_jugador2_nombre, duracion_partido=90):
         self.puntuacion_display = {0: '0', 1: '15', 2: '30', 3: '40', 4: 'ADV'}
 
         self.jugadores_nombres = {
@@ -28,6 +28,10 @@ class PartidoPadel:
         self.juego_en_tiebreak = False
         self.historial_juegos = []
         self.estado_partido = "En Curso"
+
+        from datetime import datetime
+        self.hora_inicio = datetime.now().strftime('%H:%M:%S')
+        self.duracion_partido = int(duracion_partido)
 
     def agregar_punto(self, equipo):
         if self.estado_partido == "Finalizado":
@@ -121,9 +125,10 @@ class PartidoPadel:
         return False
 
     def obtener_puntaje_display(self):
+        from datetime import datetime
         puntos_eq1_display = self.puntuacion_display.get(self.puntuacion_juego['equipo1'], str(self.puntuacion_juego['equipo1']))
         puntos_eq2_display = self.puntuacion_display.get(self.puntuacion_juego['equipo2'], str(self.puntuacion_juego['equipo2']))
-        
+        hora_actual = datetime.now().strftime('%H:%M:%S')
         return {
             'jugadores': self.jugadores_nombres,
             'sets_equipo1': self.sets_equipo1,
@@ -131,5 +136,8 @@ class PartidoPadel:
             'puntos_equipo1': puntos_eq1_display,
             'puntos_equipo2': puntos_eq2_display,
             'estado_partido': self.estado_partido,
-            'juego_en_tiebreak': self.juego_en_tiebreak
+            'juego_en_tiebreak': self.juego_en_tiebreak,
+            'hora_actual': hora_actual,
+            'duracion_partido': self.duracion_partido,
+            'hora_inicio': self.hora_inicio
         }
