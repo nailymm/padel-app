@@ -37,7 +37,8 @@ GPIO.add_event_detect(PIN_EQUIPO2, GPIO.RISING, callback=punto_equipo2, bounceti
 try:
     print("Escuchando botones GPIO. Presiona Ctrl+C para salir.")
     while True:
-        time.sleep(0.1)
+        print(GPIO.input(PIN_EQUIPO1), GPIO.input(PIN_EQUIPO2))
+        time.sleep(0.2)
 except KeyboardInterrupt:
     GPIO.cleanup()
     print("GPIO limpio y programa terminado.")
