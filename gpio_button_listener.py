@@ -31,8 +31,8 @@ def punto_equipo2(channel):
         print(f"Error al enviar punto equipo 2: {e}")
 
 # Configura la detección de eventos
-GPIO.add_event_detect(PIN_EQUIPO1, GPIO.RISING, callback=punto_equipo1, bouncetime=300)
-GPIO.add_event_detect(PIN_EQUIPO2, GPIO.RISING, callback=punto_equipo2, bouncetime=300)
+GPIO.add_event_detect(PIN_EQUIPO1, GPIO.FALLING, callback=punto_equipo1, bouncetime=300)
+GPIO.add_event_detect(PIN_EQUIPO2, GPIO.FALLING, callback=punto_equipo2, bouncetime=300)
 
 try:
     print("Escuchando botones GPIO. Presiona Ctrl+C para salir.")
