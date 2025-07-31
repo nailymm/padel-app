@@ -70,6 +70,16 @@
     </div>
 
     <script>
+        // --- Actualización automática del marcador ---
+        function fetchScore() {
+            fetch('/estado_partido')
+                .then(response => response.json())
+                .then(data => {
+                    updateScoreDisplay(data);
+                });
+        }
+        setInterval(fetchScore, 1000); // Actualiza cada segundo
+        fetchScore(); // Inicializa al cargar
         // --- Hora actual ---
         function actualizarHoraActual() {
             const ahora = new Date();

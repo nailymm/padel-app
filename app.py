@@ -4,6 +4,7 @@ from database_manager import get_matches_by_date, init_db
 import datetime
 import pickle
 import os
+import json
 
 app = Flask(__name__)
 app.secret_key = 'tu_clave_secreta_AQUI_MUY_LARGA_Y_COMPLICADA_Y_DIFICIL'
@@ -76,6 +77,13 @@ def agregar_punto(equipo):
         return jsonify(updated_state)
     else:
         return jsonify(current_match.obtener_puntaje_display())
+
+@app.route('/estado_partido')
+def estado_partido():
+    global current_match
+    if not current_match:
+        return jsonify({'error': 'No hay partido en curso'}), 400
+    return jsonify(current_match.obtener_puntaje_display())
 
 @app.route('/reiniciar_partido')
 def reiniciar_partido():
