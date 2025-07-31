@@ -12,8 +12,8 @@ PIN_EQUIPO2 = 27  # Cambia según tu conexión
 FLASK_URL = 'http://localhost:5000/agregar_punto/'
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(PIN_EQUIPO1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(PIN_EQUIPO2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(PIN_EQUIPO1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(PIN_EQUIPO2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # Callback para sumar punto a cada equipo
 def punto_equipo1(channel):
@@ -37,7 +37,6 @@ GPIO.add_event_detect(PIN_EQUIPO2, GPIO.FALLING, callback=punto_equipo2, bouncet
 try:
     print("Escuchando botones GPIO. Presiona Ctrl+C para salir.")
     while True:
-        print(GPIO.input(PIN_EQUIPO1), GPIO.input(PIN_EQUIPO2))
         time.sleep(0.2)
 except KeyboardInterrupt:
     GPIO.cleanup()
