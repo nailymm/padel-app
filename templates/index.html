@@ -8,30 +8,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Marcador de Pádel</h1>
-        <h2>Nuevo Partido</h2>
-        <form action="/iniciar_partido" method="post">
-            <div class="player-inputs">
-                <label>Equipo 1:</label><br>
-                <input type="text" name="p1_eq1" placeholder="Jugador 1" required>
-                <input type="text" name="p2_eq1" placeholder="Jugador 2" required><br><br>
-                <label>Equipo 2:</label><br>
-                <input type="text" name="p1_eq2" placeholder="Jugador 1" required>
-                <input type="text" name="p2_eq2" placeholder="Jugador 2" required>
-                <br><br>
-                <label>Duración del partido:</label><br>
-                <select name="duracion_partido" required>
-                    <option value="60">60 minutos</option>
-                    <option value="90">90 minutos</option>
-                    <option value="120">120 minutos</option>
-                </select>
+    <div class="score-container">
+        <div class="header-row" style="min-height: 50px;">
+            <div class="left"></div>
+            <div class="logo">
+                <!-- <img src="{{ url_for('static', filename='padel_logo.png') }}" alt="PADEL"> -->
             </div>
-            <button type="submit">Iniciar Partido</button>
-        </form>
-        <div class="actions">
-            <a href="/historial" class="button-link">Ver Historial</a>
+            <div class="right"></div>
         </div>
+        <h1 style="text-align:center; font-family:'Orbitron', Arial, sans-serif; font-size:3em; margin-bottom:0.5em;">Marcador de Pádel</h1>
+        <h2 style="text-align:center; font-family:'Orbitron', Arial, sans-serif; font-size:2em; margin-bottom:1em;">Nuevo Partido</h2>
+        <form action="/iniciar_partido" method="post" style="width:100%; max-width:1200px; margin:0 auto;">
+            <table class="score-table" style="margin-bottom:2em; max-width:1250px; margin-left:auto; margin-right:auto;">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;">Equipo / Jugadores</th>
+                        <th>Jugador 1</th>
+                        <th>Jugador 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left;">Equipo 1</td>
+                        <td><input type="text" name="p1_eq1" placeholder="Jugador 1" required style="width:90%; font-size:1.2em;"></td>
+                        <td><input type="text" name="p2_eq1" placeholder="Jugador 2" required style="width:90%; font-size:1.2em;"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">Equipo 2</td>
+                        <td><input type="text" name="p1_eq2" placeholder="Jugador 1" required style="width:90%; font-size:1.2em;"></td>
+                        <td><input type="text" name="p2_eq2" placeholder="Jugador 2" required style="width:90%; font-size:1.2em;"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="text-align:center; margin-bottom:1em;">
+                <label for="duracion_partido" style="font-size:1.3em; font-family:'Orbitron', Arial, sans-serif;">Duración del partido (minutos):</label><br>
+                <input type="number" id="duracion_partido" name="duracion_partido" min="1" max="240" value="90" required style="width:90%; font-size:1.8em; text-align:center; margin-top:0.5em;">
+            </div>
+            <div class="actions">
+                <button type="submit">Iniciar Partido</button>
+                <a href="/historial" class="button-link">Ver Historial</a>
+            </div>
+        </form>
     </div>
 </body>
 </html>

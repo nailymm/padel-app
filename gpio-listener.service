@@ -1,0 +1,12 @@
+[Unit]
+Description=Padel GPIO Listener
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/padel-app
+ExecStart=/usr/bin/python3 gpio_button_listener.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

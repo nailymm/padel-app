@@ -1,0 +1,12 @@
+[Unit]
+Description=Padel Flask App
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/padel-app
+ExecStart=/usr/bin/python3 app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

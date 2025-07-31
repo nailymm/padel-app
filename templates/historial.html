@@ -7,33 +7,50 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Historial de Partidos</h1>
-
-        <form action="/buscar_historial" method="post" class="search-form">
-            <label for="search_date">Buscar por Fecha:</label>
-            <input type="date" id="search_date" name="search_date" value="{{ selected_date }}">
-            <button type="submit">Buscar</button>
+    <div class="score-container">
+        <div class="header-row" style="min-height: 50px;">
+            <div class="left"></div>
+            <div class="logo"></div>
+            <div class="right"></div>
+        </div>
+        <h1 style="text-align:center; font-family:'Orbitron', Arial, sans-serif; font-size:3em; margin-bottom:0.5em;">Historial de Partidos</h1>
+        <form action="/buscar_historial" method="post" class="search-form" style="text-align:center; margin-bottom:2em;">
+            <label for="search_date" style="font-size:1.3em; font-family:'Orbitron', Arial, sans-serif;">Buscar por Fecha:</label>
+            <input type="date" id="search_date" name="search_date" value="{{ selected_date }}" style="font-size:1.2em; margin:0 1em;">
+            <button type="submit" style="font-size:1.2em; font-family:'Orbitron', Arial, sans-serif;">Buscar</button>
         </form>
-
-        <h2>Partidos del {{ selected_date }}</h2>
+        <h2 style="text-align:center; font-family:'Orbitron', Arial, sans-serif; font-size:2em; margin-bottom:1em;">Partidos del {{ selected_date }}</h2>
         {% if matches %}
-            <ul class="match-list">
-                {% for match in matches %}
-                    <li>
-                        Fecha: {{ match.fecha }}, Hora: {{ match.hora }}, 
-                        Equipo 1: {{ match.equipo1_jugador1 }}, {{ match.equipo1_jugador2 }} - 
-                        Equipo 2: {{ match.equipo2_jugador1 }}, {{ match.equipo2_jugador2 }} - 
-                        Sets: {{ match.sets_equipo1 }}:{{ match.sets_equipo2 }} - 
-                        Ganador: {{ match.ganador_equipo }}
-                    </li>
-                {% endfor %}
-            </ul>
+            <table class="score-table" style="max-width:1250px; margin:0 auto;">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Equipo 1</th>
+                        <th>Equipo 2</th>
+                        <th>Sets</th>
+                        <th>Ganador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for match in matches %}
+                    <tr>
+                        <td>{{ match.fecha }}</td>
+                        <td>{{ match.hora }}</td>
+                        <td>{{ match.equipo1_jugador1 }}, {{ match.equipo1_jugador2 }}</td>
+                        <td>{{ match.equipo2_jugador1 }}, {{ match.equipo2_jugador2 }}</td>
+                        <td>{{ match.sets_equipo1 }} : {{ match.sets_equipo2 }}</td>
+                        <td>{{ match.ganador_equipo }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% else %}
-            <p>No hay partidos registrados para esta fecha.</p>
+            <p style="text-align:center; font-size:1.3em;">No hay partidos registrados para esta fecha.</p>
         {% endif %}
-
-        <p><a href="/" class="button-link">Volver al Inicio</a></p>
+        <div class="actions" style="justify-content:center; margin-top:2em;">
+            <a href="/" class="button-link">Volver al Inicio</a>
+        </div>
     </div>
 </body>
 </html>
