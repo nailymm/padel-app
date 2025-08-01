@@ -1,3 +1,34 @@
+## Inicio automático de la app y apertura del navegador
+
+Para que la aplicación Flask y el navegador se abran automáticamente al iniciar el Raspberry Pi:
+
+1. Asegúrate de tener el archivo de servicio systemd para la app (`padel-app.service`).
+2. Usa el script `start_padel.sh` incluido en el proyecto. Este script abre Chromium en la página principal de la app.
+
+### Ejemplo de contenido de `start_padel.sh`:
+```bash
+#!/bin/bash
+sleep 5
+chromium-browser http://localhost:5000/
+```
+
+Hazlo ejecutable:
+```bash
+chmod +x /home/pi/Workspace_free/padel-app/start_padel.sh
+```
+
+Agrega la siguiente línea al archivo de servicio systemd de la app (`padel-app.service`):
+```
+ExecStartPost=/home/pi/Workspace_free/padel-app/start_padel.sh
+```
+
+Recarga systemd y reinicia el servicio:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart padel-app
+```
+
+Así, al iniciar el Raspberry Pi, la app se ejecutará y el navegador se abrirá automáticamente en el index.
 
 # Marcador de Pádel - Raspberry Pi
 
