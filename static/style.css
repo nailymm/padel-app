@@ -24,6 +24,12 @@ body {
     padding: 2% 5%;
 }
 
+.score-container .hide-btn {
+    background-color: #13AEDE;
+    
+    box-shadow: none;
+}
+
 .header-row {
     display: flex;
     justify-content: space-between;
@@ -44,11 +50,13 @@ body {
 
 .header-row .left, .header-row .right {
     flex: 1;
-    font-size: 5em;
+    font-size: 7em;
     color: #fff;
     font-weight: 400;
 }
-
+.header-row .left {
+    font-size: 5em;
+}
 .header-row .right {
     font-weight: bold;
     text-align: right;
@@ -60,7 +68,7 @@ body {
     gap: 90px;
     margin-bottom: 10px;
     margin-right: 120px;
-    font-size: 2.8em;
+    font-size: 3.8em;
     font-weight: bold;
 }
 
@@ -204,7 +212,7 @@ body {
 .score-table th {
     color: #fff;
     font-family: 'Orbitron', Arial, sans-serif;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: bold;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -214,10 +222,10 @@ body {
     color: #fff;
     font-family: 'Arial', sans-serif;
     font-weight: 600;
-    font-size: 5em;
+    font-size: 8em;
 }
 .score-table td .point-box {
-    font-size: 1.8em;
+    font-size: 1.2em;
     background: #fff;
     color: #19c2f7;
     font-family: 'Orbitron', Arial, sans-serif;

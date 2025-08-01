@@ -49,23 +49,25 @@
                 </tr>
             </tbody>
         </table>
-        <div class="tiebreak-info">
+        <!-- <div class="tiebreak-info">
             <p>Estado del Partido: {{ match.estado_partido }}</p>
-        </div>
+        </div> -->
         <!-- <div class="time-info">
             <span>Tiempo transcurrido: {{ match.tiempo_transcurrido }}</span>
             <span>Tiempo restante: {{ match.tiempo_restante }}</span>
         </div> -->
-        <div class="manual-buttons">
+        <!-- <div class="manual-buttons">
             <span style="width: 100%;">Esconder cuando se configure los botones</span>
             <button onclick="addPoint('equipo1')">Punto Equipo 1</button>
             <button onclick="addPoint('equipo2')">Punto Equipo 2</button>
-        </div>
+        </div> -->
 
         <div class="actions">
             <button onclick="window.location.href='/reiniciar_partido'">Reiniciar Partido</button>
             <a href="/historial" class="button-link">Ver Historial</a>
             <a href="/" class="button-link">Inicio</a>
+            <button class="hide-btn" onclick="addPoint('equipo1')">Punto Equipo 1</button>
+            <button class="hide-btn" onclick="addPoint('equipo2')">Punto Equipo 2</button>
         </div>
     </div>
 
