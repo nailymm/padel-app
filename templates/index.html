@@ -16,7 +16,7 @@
             </div>
             <div class="right"></div>
         </div>
-        <h1 style="text-align:center; font-family:'Orbitron', Arial, sans-serif; font-size:3em; margin-bottom:0.5em;">Marcador de Pádel</h1>
+        <h1 style="text-align:center; font-family:'Orbitron', Arial, sans-serif; font-size:3em; margin-bottom:0.5em;height: 40px;"></h1>
         <h2 style="text-align:center; font-family:'Orbitron', Arial, sans-serif; font-size:2em; margin-bottom:0.5em;">Nuevo Partido</h2>
         <form action="/iniciar_partido" method="post" style="width:100%; max-width:90vw; margin:0 auto;">
             <table class="score-table" style="margin-bottom:2em; max-width:90vw; margin-left:auto; margin-right:auto;">
@@ -30,19 +30,19 @@
                 <tbody>
                     <tr>
                         <td style="text-align:left; font-size: 3.5em;">Equipo 1</td>
-                        <td><input type="text" name="p1_eq1" placeholder="Jugador 1" required style="width:90%; font-size:1.0em;"></td>
-                        <td><input type="text" name="p2_eq1" placeholder="Jugador 2" required style="width:90%; font-size:1.0em;"></td>
+                        <td><input type="text" name="p1_eq1" placeholder="Jugador 1" required style="width:90%; height: 100px;"></td>
+                        <td><input type="text" name="p2_eq1" placeholder="Jugador 2" required style="width:90%; height: 100px;"></td>
                     </tr>
                     <tr>
                         <td style="text-align:left; font-size: 3.5em;">Equipo 2</td>
-                        <td><input type="text" name="p1_eq2" placeholder="Jugador 1" required style="width:90%; font-size:1.0em;"></td>
-                        <td><input type="text" name="p2_eq2" placeholder="Jugador 2" required style="width:90%; font-size:1.0em;"></td>
+                        <td><input type="text" name="p1_eq2" placeholder="Jugador 1" required style="width:90%; height: 100px;"></td>
+                        <td><input type="text" name="p2_eq2" placeholder="Jugador 2" required style="width:90%; height: 100px;"></td>
                     </tr>
                 </tbody>
             </table>
             <div style="text-align:center; margin-bottom:1em;">
                 <label for="duracion_partido" style="font-size:1.3em; font-family:'Orbitron', Arial, sans-serif;">Duración del partido (minutos):</label><br>
-                <input type="number" id="duracion_partido" name="duracion_partido" min="1" max="240" value="90" required style="width:90%; font-size:1.8em; text-align:center; margin-top:0.5em;">
+                <input type="number" id="duracion_partido" name="duracion_partido" min="1" max="240" value="90" required style="width:90%; font-size:2em; text-align:center; margin-top:0.5em;">
             </div>
             <div class="actions">
                 <button type="submit">Iniciar Partido</button>

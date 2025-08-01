@@ -223,6 +223,11 @@ body {
     font-weight: 600;
     font-size: 8em;
 }
+.score-table td input{
+    font-family: 'Arial', sans-serif;
+    font-weight: 600;
+    font-size: 0.75em;
+}
 .score-table td .point-box {
     font-size: 1.2em;
     background: #fff;
