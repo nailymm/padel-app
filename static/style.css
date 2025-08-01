@@ -21,12 +21,11 @@ body {
     margin-top: 30px;
     border-radius: 20px;
     box-sizing: border-box;
-    padding: 2% 5%;
+    padding: 1% 5%;
 }
 
 .score-container .hide-btn {
     background-color: #13AEDE;
-    
     box-shadow: none;
 }
 
@@ -34,7 +33,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10em;
+    margin-bottom: 5em;
     padding: 0 30px;
 }
 
