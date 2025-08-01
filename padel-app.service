@@ -3,7 +3,7 @@ Description=Padel Flask App
 After=network.target
 
 [Service]
-User=pi
+User=nezz
 WorkingDirectory=/home/nezz/padel-app
 ExecStart=/usr/bin/python3 app.py
 Restart=always

@@ -3,7 +3,7 @@ Description=Padel GPIO Listener
 After=network.target
 
 [Service]
-User=pi
+User=nezz
 WorkingDirectory=/home/nezz/padel-app
 ExecStart=/usr/bin/python3 gpio_button_listener.py
 Restart=always
