@@ -44,13 +44,12 @@ body {
 
 .header-row .left, .header-row .right {
     flex: 1;
-    font-size: 2em;
+    font-size: 5em;
     color: #fff;
     font-weight: 400;
 }
 
 .header-row .right {
-    font-size: 4em;
     font-weight: bold;
     text-align: right;
 }
