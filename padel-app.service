@@ -6,6 +6,7 @@ After=network.target
 User=nezz
 WorkingDirectory=/home/nezz/padel-app
 ExecStart=/usr/bin/python3 app.py
+ExecStartPost=/home/nezz/padel-app/start_padel.sh
 Restart=always
 
 [Install]
