@@ -104,5 +104,17 @@ def buscar_historial():
     matches = get_matches_by_date(date)
     return render_template('historial.html', matches=matches, selected_date=date)
 
+@app.route('/fin_partido')
+def fin_partido():
+    return render_template('end_game.html')
+
+@app.route('/finalizar_partido')
+def finalizar_partido():
+    global current_match
+    # Aquí puedes asegurarte de guardar el partido si no se ha guardado
+    clear_match_state()
+    current_match = None
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

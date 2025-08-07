@@ -96,7 +96,7 @@
         // Variables que deben venir del backend
         const duracionPartidoMin = {{ match.duracion_partido|int }}; // minutos
         const horaInicioStr = '{{ match.hora_inicio }}'; // formato 'HH:MM:SS'
-
+        let partidoFinalizado = false;
         function calcularTiempoRestante() {
             // Parsear hora de inicio
             const ahora = new Date();
@@ -110,6 +110,11 @@
             const min = Math.floor(restanteMs / 60000);
             const seg = Math.floor((restanteMs % 60000) / 1000);
             document.getElementById('tiempo-restante').innerText = `${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+            if (min === 0 && seg === 0 && !partidoFinalizado) {
+                partidoFinalizado = true;
+                mostrarPantallaFinal();
+                setTimeout(cerrarNavegador, 5 * 60 * 1000); // 5 minutos
+            }
         }
         setInterval(calcularTiempoRestante, 1000);
         calcularTiempoRestante();
@@ -145,6 +150,11 @@
                 })
                 .catch(error => console.error('Error al agregar punto:', error));
         }
+
+        function mostrarPantallaFinal() {
+            window.location.href = "/fin_partido";
+        }
+
     </script>
 </body>
 </html>

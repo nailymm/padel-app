@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Fin del Partido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="score-container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;">
+        <div class="header-row">
+            <div class="left"></div>
+            <div class="logo"></div>
+            <div class="right"></div>
+        </div>
+        <div style="width:100%;text-align:center;">
+            <h1 style="font-family:'Orbitron',Arial,sans-serif;font-size:4em;color:#fff;margin-top:2em;">Su tiempo de juego ha terminado</h1>
+            <p style="font-size:2em;color:#fff;margin-top:1em;">Muchas gracias por usar nuestros servicios</p>
+        </div>
+        <div style="text-align:center; margin-top:2em;">
+            <a href="/finalizar_partido" class="button-link" style="font-size:2em;">Volver al inicio</a>
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            window.location.href = "/finalizar_partido";
+        }, 5 * 60 * 1000); // 5 minutos
+    </script>
+</body>
+</html>
