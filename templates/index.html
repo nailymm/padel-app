@@ -40,15 +40,52 @@
                     </tr>
                 </tbody>
             </table>
-            <div style="text-align:center; margin-bottom:1em;">
+            <div class="reservation-time">
+                <label for="tiempo_reserva">Tiempo de Reserva (minutos):</label>
+                <input type="number" name="tiempo_reserva" id="tiempo_reserva" 
+                    value="{{ tiempo_reserva }}"
+                    {% if reserva_activa %}readonly{% endif %} required>
+                {% if reserva_activa %}
+                    Tiempo restante: <span id="timer-minutes">--</span>:<span id="timer-seconds">--</span>
+                    <a href="/terminar_reserva" class="button-link">Terminar Reserva</a>
+                {% else %}
+                    <p>Establece el tiempo de tu reserva para empezar.</p>
+                {% endif %}
+            </div>
+            <!-- <div style="text-align:center; margin-bottom:1em;">
                 <label for="duracion_partido" style="font-size:1.3em; font-family:'Orbitron', Arial, sans-serif;">Duración del partido (minutos):</label><br>
                 <input type="number" id="duracion_partido" name="duracion_partido" min="1" max="240" value="90" required style="width:90%; font-size:2em; text-align:center; margin-top:0.5em;">
-            </div>
+            </div> -->
             <div class="actions">
                 <button type="submit">Iniciar Partido</button>
                 <a href="/historial" class="button-link">Ver Historial</a>
             </div>
         </form>
     </div>
+    <script>
+    // Este script se ejecutará si hay una reserva activa
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if reserva_activa %}
+            function updateTimer() {
+                fetch('/tiempo_restante')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.activo) {
+                            const minutes = data.minutos.toString().padStart(2, '0');
+                            const seconds = data.segundos.toString().padStart(2, '0');
+                            document.getElementById('timer-minutes').innerText = minutes;
+                            document.getElementById('timer-seconds').innerText = seconds;
+                        } else {
+                            document.getElementById('countdown-timer').innerHTML = "¡Tiempo terminado! <a href='/terminar_reserva' class='button-link'>Finalizar</a>";
+                        }
+                    })
+                    .catch(error => console.error('Error fetching time:', error));
+            }
+            // Actualizar inmediatamente y luego cada segundo
+            updateTimer(); 
+            setInterval(updateTimer, 1000); 
+        {% endif %}
+    });
+</script>
 </body>
 </html>

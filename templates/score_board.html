@@ -14,7 +14,9 @@
             <div class="logo">
                 <!-- <img src="{{ url_for('static', filename='padel_logo.png') }}" alt="PADEL"> -->
             </div>
-            <div class="right"><span id="tiempo-restante"></span></div>
+            <div class="right">
+                <span id="timer-display" class="timer-display"><span id="timer-minutes">--</span>:<span id="timer-seconds">--</span></span>
+            </div>
         </div>
         <table class="score-table" style="width:100%; border-collapse:separate; margin-top: 1em;">
             <thead>
@@ -61,7 +63,16 @@
             <button onclick="addPoint('equipo1')">Punto Equipo 1</button>
             <button onclick="addPoint('equipo2')">Punto Equipo 2</button>
         </div> -->
-
+        <div id="end-match-popup" class="popup-container">
+            <div class="popup-content">
+                <h2 id="popup-title">¡PARTIDO FINALIZADO!</h2>
+                <p id="popup-winner-message"></p>
+                <div class="popup-actions">
+                    <button onclick="window.location.href='/reiniciar_partido'">Reiniciar Partido</button>
+                    <a href="/" class="button-link">Ir al Inicio</a>
+                </div>
+            </div>
+        </div>
         <div class="actions">
             <button onclick="window.location.href='/reiniciar_partido'">Reiniciar Partido</button>
             <a href="/historial" class="button-link">Ver Historial</a>
@@ -92,33 +103,6 @@
         setInterval(actualizarHoraActual, 1000);
         actualizarHoraActual();
 
-        // --- Tiempo restante ---
-        // Variables que deben venir del backend
-        const duracionPartidoMin = {{ match.duracion_partido|int }}; // minutos
-        const horaInicioStr = '{{ match.hora_inicio }}'; // formato 'HH:MM:SS'
-        let partidoFinalizado = false;
-        function calcularTiempoRestante() {
-            // Parsear hora de inicio
-            const ahora = new Date();
-            const partes = horaInicioStr.split(':');
-            const inicio = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate(), partes[0], partes[1], partes[2] || 0);
-            // Si el partido empezó el día anterior, ajustar
-            if (inicio > ahora) inicio.setDate(inicio.getDate() - 1);
-            const fin = new Date(inicio.getTime() + duracionPartidoMin * 60000);
-            let restanteMs = fin - ahora;
-            if (restanteMs < 0) restanteMs = 0;
-            const min = Math.floor(restanteMs / 60000);
-            const seg = Math.floor((restanteMs % 60000) / 1000);
-            document.getElementById('tiempo-restante').innerText = `${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
-            if (min === 0 && seg === 0 && !partidoFinalizado) {
-                partidoFinalizado = true;
-                mostrarPantallaFinal();
-                setTimeout(cerrarNavegador, 5 * 60 * 1000); // 5 minutos
-            }
-        }
-        setInterval(calcularTiempoRestante, 1000);
-        calcularTiempoRestante();
-
         function updateScoreDisplay(data) {
             // Actualizar sets y puntos usando la estructura de tabla
             const filas = document.querySelectorAll('.score-table tbody tr');
@@ -140,7 +124,37 @@
             // Ejemplo:
             // if (data.juego_en_tiebreak) { ... }
             // if (data.estado_partido === 'Finalizado') { ... }
+
+            if (data.estado_partido === 'Finalizado') {
+                // Obtener el ganador y mostrar el pop-up
+                const ganador = data.ganador === 'equipo1' ? 'EQUIPO 1' : 'EQUIPO 2';
+                document.getElementById('popup-winner-message').innerText = `¡El ganador es el ${ganador}!`;
+                
+                // Mostrar el pop-up
+                document.getElementById('end-match-popup').style.display = 'flex';
+            } else {
+                // Ocultar el pop-up si el partido está en curso
+                document.getElementById('end-match-popup').style.display = 'none';
+            }
         }
+
+        function updateTimer() {
+            fetch('/tiempo_restante')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.activo) {
+                        const minutes = data.minutos.toString().padStart(2, '0');
+                        const seconds = data.segundos.toString().padStart(2, '0');
+                        document.getElementById('timer-minutes').innerText = minutes;
+                        document.getElementById('timer-seconds').innerText = seconds;
+                    } else {
+                        mostrarPantallaFinal();
+                    }
+                })
+                .catch(error => console.error('Error al obtener el tiempo restante:', error));
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
 
         function addPoint(equipo) {
             fetch(`/agregar_punto/${equipo}`)

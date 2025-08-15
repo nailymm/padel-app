@@ -6,7 +6,7 @@ from database_manager import get_or_create_player, save_match
 
 class PartidoPadel:
     def __init__(self, equipo1_jugador1_nombre, equipo1_jugador2_nombre,
-                 equipo2_jugador1_nombre, equipo2_jugador2_nombre, duracion_partido=90):
+                 equipo2_jugador1_nombre, equipo2_jugador2_nombre):
         self.puntuacion_display = {0: '0', 1: '15', 2: '30', 3: '40', 4: 'ADV'}
 
         self.jugadores_nombres = {
@@ -31,7 +31,6 @@ class PartidoPadel:
 
         from datetime import datetime
         self.hora_inicio = datetime.now().strftime('%H:%M:%S')
-        self.duracion_partido = int(duracion_partido)
 
     def agregar_punto(self, equipo):
         if self.estado_partido == "Finalizado":
@@ -105,8 +104,8 @@ class PartidoPadel:
     def _verificar_partido_finalizado(self):
         if self.puntuacion_partido['equipo1'] == 2 or self.puntuacion_partido['equipo2'] == 2 or self.set_actual >= 3:
             self.estado_partido = "Finalizado"
-            ganador = 'equipo1' if self.puntuacion_partido['equipo1'] == 2 else 'equipo2'
-            print(f"¡Partido Finalizado! Ganador: {ganador}")
+            self.ganador = 'equipo1' if self.puntuacion_partido['equipo1'] == 2 else 'equipo2'
+            print(f"¡Partido Finalizado! Ganador: {self.ganador}")
             
             match_data = {
                 'fecha': datetime.now().strftime('%Y-%m-%d'),
@@ -118,7 +117,7 @@ class PartidoPadel:
                 'sets_equipo1': self.puntuacion_partido['equipo1'],
                 'sets_equipo2': self.puntuacion_partido['equipo2'],
                 'historial_juegos_json': json.dumps(self.historial_juegos),
-                'ganador_equipo': ganador
+                'ganador_equipo': self.ganador
             }
             save_match(match_data)
             return True
@@ -138,6 +137,6 @@ class PartidoPadel:
             'estado_partido': self.estado_partido,
             'juego_en_tiebreak': self.juego_en_tiebreak,
             'hora_actual': hora_actual,
-            'duracion_partido': self.duracion_partido,
-            'hora_inicio': self.hora_inicio
+            'hora_inicio': self.hora_inicio,
+            "ganador": self.ganador if hasattr(self, 'ganador') else None,
         }
