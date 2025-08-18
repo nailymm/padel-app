@@ -6,6 +6,7 @@ import pickle
 import os
 import json
 import time 
+import os
 
 app = Flask(__name__)
 app.secret_key = 'tu_clave_secreta_AQUI_MUY_LARGA_Y_COMPLICADA_Y_DIFICIL'
@@ -168,7 +169,8 @@ def finalizar_partido():
     # Aquí puedes asegurarte de guardar el partido si no se ha guardado
     clear_match_state()
     current_match = None
-    return redirect(url_for('index'))
+    os.system("nohup /home/nezz/padel-app/cerrar_navegador.sh &")
+    # return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
