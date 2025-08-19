@@ -169,7 +169,7 @@ def finalizar_partido():
     # Aquí puedes asegurarte de guardar el partido si no se ha guardado
     clear_match_state()
     current_match = None
-    os.system("nohup /home/nezz/padel-app/cerrar_navegador.sh &")
+    os.system("nohup /home/nezz/padel-app/close_app.sh &")
     return "Navegador cerrando y partido finalizado."
     # return redirect(url_for('index'))
 
