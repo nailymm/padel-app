@@ -173,5 +173,23 @@ def finalizar_partido():
     return "Navegador cerrando y partido finalizado."
     # return redirect(url_for('index'))
 
+@app.route('/iniciar_partido_auto', methods=['POST'])
+def iniciar_partido_auto():
+    """
+    Inicia un nuevo partido con los mismos jugadores.
+    """
+    global current_match
+    if current_match:
+        jugadores = current_match.jugadores_nombres
+        clear_match_state()
+        current_match = PartidoPadel(
+            jugadores['equipo1'][0], jugadores['equipo1'][1],
+            jugadores['equipo2'][0], jugadores['equipo2'][1]
+        )
+        save_match_state(current_match)
+        return jsonify({"status": "ok", "message": "Nuevo partido iniciado", "match_state": current_match.obtener_puntaje_display()})
+    else:
+        return jsonify({"status": "error", "message": "No hay partido en curso para reiniciar"}), 400
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

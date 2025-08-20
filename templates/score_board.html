@@ -103,6 +103,9 @@
         setInterval(actualizarHoraActual, 1000);
         actualizarHoraActual();
 
+        let isPopupShowing = false;
+        const endMatchPopup = document.getElementById('end-match-popup');
+
         function updateScoreDisplay(data) {
             // Actualizar sets y puntos usando la estructura de tabla
             const filas = document.querySelectorAll('.score-table tbody tr');
@@ -125,16 +128,47 @@
             // if (data.juego_en_tiebreak) { ... }
             // if (data.estado_partido === 'Finalizado') { ... }
 
-            if (data.estado_partido === 'Finalizado') {
+            if (data.estado_partido === 'Finalizado' && !isPopupShowing) {
                 // Obtener el ganador y mostrar el pop-up
                 const ganador = data.ganador === 'equipo1' ? 'EQUIPO 1' : 'EQUIPO 2';
                 document.getElementById('popup-winner-message').innerText = `¡El ganador es el ${ganador}!`;
                 
                 // Mostrar el pop-up
-                document.getElementById('end-match-popup').style.display = 'flex';
+                endMatchPopup.style.display = 'flex';
+                setTimeout(() => {
+                    // Consultar el estado del cronómetro antes de reiniciar
+                    fetch('/tiempo_restante')
+                        .then(response => response.json())
+                        .then(timerData => {
+                            if (timerData.activo) {
+                                // Si aún hay tiempo, iniciar un nuevo partido
+                                endMatchPopup.style.display = 'none';
+                                fetch('/iniciar_partido_auto', { method: 'POST' })
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Network response was not ok');
+                                        }
+                                        return response.json();
+                                    }).then(newMatchData => {
+                                        if (newMatchData.status === 'ok') {
+                                            updateScoreDisplay(newMatchData.match_state);
+                                        } else {
+                                            console.error(newMatchData.message);
+                                        }
+                                    }).catch(error => {
+                                        console.error('Error al iniciar partido automáticamente:', error);
+                                        mostrarPantallaFinal();
+                                    });
+                            } else {
+                                // Si no queda tiempo, redirigir a la pantalla de fin de juego
+                                mostrarPantallaFinal();
+                            }
+                        });
+                }, 5000); // 5 segundos
             } else {
+                isPopupShowing = false;
                 // Ocultar el pop-up si el partido está en curso
-                document.getElementById('end-match-popup').style.display = 'none';
+                endMatchPopup.style.display = 'none';
             }
         }
 

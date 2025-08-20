@@ -1,3 +1,3 @@
 #!/bin/bash
-sleep 90
+sleep 10
 pkill chromium
